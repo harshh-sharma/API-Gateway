@@ -14,8 +14,14 @@ async function generateToken(data){
     )
 }
 
+async function verifyToken(token){
+    const verifyToken = jwt.verify(token,JWT_SECRET);
+    return verifyToken;
+}
+
 
 module.exports = {
     validatePassword,
-    generateToken
+    generateToken,
+    verifyToken
 }

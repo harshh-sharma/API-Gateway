@@ -1,5 +1,4 @@
 const express = require("express");
-const {InfoController} = require('../../controller');
 const infoRouter = require("./info-routes");
 const userRouter = require("./auth-route");
 

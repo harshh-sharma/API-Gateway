@@ -1,7 +1,9 @@
+const jwt = require("jsonwebtoken");
+
 const { StatusCodes } = require("http-status-codes");
 const { AuthRepository } = require("../repositories");
 const { AppError } = require("../utils/errors");
-const { validatePassword, generateToken } = require("../utils/common/auth");
+const { validatePassword, generateToken, verifyToken } = require("../utils/common/auth");
 
 
 
@@ -45,7 +47,27 @@ async function signin(data){
     }
 }
 
+async function isAuthenticated(token){
+    try {
+        if(!token){
+            throw new AppError('Jwt token is missing',StatusCodes.BAD_REQUEST);
+        }
+        const response = await verifyToken(token);
+        const user = await authRepository.get(response?.id);
+        if(!user){
+            throw new AppError('user are not found',StatusCodes.BAD_REQUEST);
+        }
+        return user.id;
+    } catch (error) {
+        if(error.name == 'JsonWebTokenError'){
+            throw new AppError('Invalid jwt token',StatusCodes.BAD_REQUEST);
+        }
+        throw error
+    }
+}
+
 module.exports = {
     signup,
-    signin
+    signin,
+    isAuthenticated
 }

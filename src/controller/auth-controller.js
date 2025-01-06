@@ -2,6 +2,7 @@ const {ErrorResponse,SuccessResponse} = require("../utils/common")
 
 const {AuthService} = require("../service");
 const { StatusCodes } = require("http-status-codes");
+const { AppError } = require("../utils/errors");
 
 async function signup(req,res){
     try {
@@ -28,6 +29,7 @@ async function signin(req,res){
        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse); 
     }
 }
+
 
 module.exports = {
     signup,
