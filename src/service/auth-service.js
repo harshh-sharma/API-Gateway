@@ -11,8 +11,6 @@ const authRepository = new AuthRepository();
 
 async function signup(data){
     try {
-        console.log("data",data);
-        
         const user = await authRepository.create(data);
         return user;
     } catch (error) {
@@ -29,10 +27,6 @@ async function signin(data){
         }
 
         const isPasswordValid = await validatePassword(user.password,data?.password);
-
-        console.log(isPasswordValid);
-        
-
         if(!isPasswordValid){
             throw new AppError('Password is not correct',StatusCodes.BAD_REQUEST);
         }
